@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GOLDILOCKS Marketing Dashboard</title>
+
+https://fonts.googleapis.com
+https://fonts.gstatic.com
+https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap
+
+https://cdn.jsdelivr.net/npm/chart.jsscript>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:#f4f7fb;
+  color:#222;
+}
+
+.container{
+  max-width:1400px;
+  margin:auto;
+  padding:30px;
+}
+
+.header{
+  background:#111827;
+  color:white;
+  padding:30px;
+  border-radius:20px;
+  margin-bottom:24px;
+}
+
+.header h1{
+  font-size:2rem;
+  margin-bottom:8px;
+}
+
+.header p{
+  color:#d1d5db;
+}
+
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin-bottom:24px;
+}
+
+.kpi{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.kpi-label{
+  color:#666;
+  font-size:14px;
+}
+
+.kpi-value{
+  margin-top:10px;
+  font-size:2rem;
+  font-weight:800;
+  color:#03C75A;
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.card h3{
+  margin-bottom:15px;
+}
+
+.chart-wrap{
+  height:350px;
+}
+
+.insights{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.insights h3{
+  margin-bottom:15px;
+}
+
+.insights ul{
+  padding-left:20px;
+}
+
+.insights li{
+  margin-bottom:12px;
+  line-height:1.6;
+}
+
+.badge{
+  display:inline-block;
+  background:#03C75A;
+  color:white;
+  padding:8px 14px;
+  border-radius:30px;
+  font-size:13px;
+  margin-top:10px;
+}
+
+@media(max-width:900px){
+
+  .kpi-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .kpi-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🎉 GOLDILOCKS Marketing Performance</h1>
+        <p>네이버 스토어 캠페인 마케팅 성과 대시보드</p>
+        <div class="badge">Top Channel : 네이버 성과형 광고</div>
+    </div>
+
+    <div class="kpi-grid">
+
+        <div class="kpi">
+            <div class="kpi-label">총 유입수</div>
+            <div class="kpi-value">191,581</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">방문 고객수</div>
+            <div class="kpi-value">176,657</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">상품 조회수</div>
+            <div class="kpi-value">131,022</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">주요 유입 채널</div>
+            <div class="kpi-value">5+</div>
+        </div>
+
+    </div>
+
+    <div class="grid-2">
+
+        <div class="card">
+            <h3>유입 채널 비중</h3>
+            <div class="chart-wrap">
+                <canvas id="channelShare"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>채널별 유입수</h3>
+            <div class="chart-wrap">
+                <canvas id="channelTraffic"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="grid-2">
+
+        <div class="card">
+            <h3>고객 관심도</h3>
+            <div class="chart-wrap">
+                <canvas id="interestChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>TOP 콘텐츠</h3>
+            <div class="chart-wrap">
+                <canvas id="topPages"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="insights">
+
+        <h3>📌 Key Insights</h3>
+
+        <ul>
+            <li>네이버 성과형 광고가 전체 유입의 약 47%를 차지하며 가장 큰 트래픽을 견인</li>
+            <li>인스타그램이 두 번째 주요 유입 채널로 브랜드 인지도를 확대</li>
+            <li>대표 상품 페이지에 고객 관심이 집중되며 13만+ 조회 기록</li>
+            <li>네이버플러스스토어와 브랜드검색을 통한 자연 유입도 의미 있는 비중 확보</li>
+            <li>캠페인 기간 동안 높은 관심도와 페이지 도달 성과 달성</li>
+        </ul>
+
+    </div>
+
+</div>
+
+<script>
+
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+
+new Chart(document.getElementById("channelShare"),{
+    type:"doughnut",
+    data:{
+        labels:[
+            "네이버 광고",
+            "인스타그램",
+            "플러스스토어",
+            "캠페인 링크",
+            "브랜드검색"
+        ],
+        datasets:[{
+            data:[47,22,12,11,8],
+            backgroundColor:[
+                "#03C75A",
+                "#4F46E5",
+                "#06B6D4",
+                "#F59E0B",
+                "#EF4444"
+            ],
+            borderWidth:0
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:'bottom'
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("channelTraffic"),{
+    type:"bar",
+    data:{
+        labels:[
+            "네이버 광고",
+            "인스타그램",
+            "플러스스토어",
+            "캠페인 링크",
+            "브랜드검색"
+        ],
+        datasets:[{
+            label:"유입수",
+            data:[89260,42065,22496,20195,15279],
+            backgroundColor:"#03C75A",
+            borderRadius:8
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        indexAxis:'y',
+        plugins:{
+            legend:{
+                display:false
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("interestChart"),{
+    type:"bar",
+    data:{
+        labels:[
+            "총 유입",
+            "방문 고객",
+            "상품 조회"
+        ],
+        datasets:[{
+            data:[191581,176657,131022],
+            backgroundColor:[
+                "#03C75A",
+                "#53D686",
+                "#8BE4AF"
+            ],
+            borderRadius:8
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                display:false
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("topPages"),{
+    type:"bar",
+    data:{
+        labels:[
+            "대표 상품 페이지",
+            "카테고리 페이지",
+            "상세 페이지"
+        ],
+        datasets:[{
+            data:[131022,92222,20058],
+            backgroundColor:[
+                "#03C75A",
+                "#06B6D4",
+                "#F59E0B"
+            ],
+            borderRadius:8
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                display:false
+            }
+        }
+    }
+});
+
+</script>
+
+</body>
+</html>
